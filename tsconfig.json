@@ -1,0 +1,19 @@
+{
+  "coord":
+    {"lon":36.03,"lat":55.5},
+  "weather":
+    {"id":803,"main":"Clouds","description":"broken clouds","icon":"04n"},
+  "base":"stations",
+  "main":
+    {"temp":291.836,"pressure":994.25,"humidity":79,"temp_min":291.836,"temp_max":291.836,"sea_level":1019.14,"grnd_level":994.25},
+  "wind":
+    {"speed":5.55,"deg":280.501},
+  "clouds":
+    {"all":64},
+  "dt":1501878372,
+  "sys":
+    {"message":0.0031,"country":"RU","sunrise":1501811364,"sunset":1501867984},
+  "id":524712,
+  "name":"Mozhaysk",
+  "cod":200
+}
