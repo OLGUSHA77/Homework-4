@@ -1,12 +1,10 @@
 <?php
-$file = file_get_contents('tsconfig.json');
+$file = file_get_contents(
+        "http://api.openweathermap.org/data/2.5/weather?q=Mozhaysk,ru&appid=53553b47a6c757f074474403c5c220ae");
+
 $JSON = json_decode($file);
-
 $myCountry = $JSON -> sys -> country;
-echo "<p>Страна: " . $myCountry . "</p>";
-
 $myCity = $JSON -> name;
-echo "<p>Город: " . $myCity . "</p>";
 
 $JSONa = json_decode($file,true);
 
@@ -14,33 +12,35 @@ foreach ($JSONa as $key => $value) {
 
     if (is_array($value)) {
 
+        if ($key == "dt") {
+            $date = date('d/m/y',$value);
+        }
+
         foreach($value as $k => $i){
             if ($k == 'temp'){
-                echo "<p>Температура: " . $i . "</p>";
+                $temp = $i;
             }
 
             if ($k == 'speed'){
-                echo "<p>Скорость ветра: " . $i . "</p>";
+                $speed = $i;
             }
 
             if ($k == 'humidity'){
-                echo "<p>Влажность: " . $i . "</p>";
+                $humid = $i;
             }
-
         }
     }
-
-    if ($key == "dt") {
-        $x = date('d/m/y',$value);
-        echo "<p>Текущая дата: " . $x . "</p>";
-    }
-
-
 }
 
-?>;
+?>
+<h2>Погодные условия в <?= $myCity ?></h2>
+    <p>Страна: <?= $myCountry ?></p>
+    <p>Текущая дата: <?= $date ?></p>
+    <p>Температура: <?= $temp ?></p>
+    <p>Скорость ветра: <?= $speed ?></p>
+    <p>Влажность: <?= $humid ?></p>
 
-<img src = "\pr4\Weather forecast hourly graphic.png" alt="Погода в Можайске">
+<img src = "\pr4\Weather forecast hourly graphic.png" alt="График погоды">
 
 
 
