@@ -1,36 +1,29 @@
 <?php
-$file = file_get_contents(
-        "http://api.openweathermap.org/data/2.5/weather?q=Mozhaysk,ru&appid=53553b47a6c757f074474403c5c220ae");
+$URL = "http://api.openweathermap.org/data/2.5/weather?q=Mozhaysk,ru&appid=53553b47a6c757f074474403c5c220ae";
 
-$JSON = json_decode($file);
+$fileNameTXT = 'cache.txt';
+if (file_exists($fileNameTXT) == false){
+    $fileTXT = fopen($fileNameTXT,'x');
+    $str = file_get_contents($URL);
+    fwrite($fileTXT, $str);
+    fclose($fileTXT);
+}
+elseif (date ("G", fileatime($fileNameTXT)) < 24) {
+    $handle = fopen($fileNameTXT, "r");
+    $str = fread($handle, filesize($fileNameTXT));
+    fclose($handle);
+    }
+else{
+    $str = file_get_contents($URL);
+}
+
+$JSON = json_decode($str);
 $myCountry = $JSON -> sys -> country;
 $myCity = $JSON -> name;
-
-$JSONa = json_decode($file,true);
-
-foreach ($JSONa as $key => $value) {
-
-    if (is_array($value)) {
-
-        if ($key == "dt") {
-            $date = date('d/m/y',$value);
-        }
-
-        foreach($value as $k => $i){
-            if ($k == 'temp'){
-                $temp = $i;
-            }
-
-            if ($k == 'speed'){
-                $speed = $i;
-            }
-
-            if ($k == 'humidity'){
-                $humid = $i;
-            }
-        }
-    }
-}
+$date = date ("F d Y H:i:s.", $JSON -> dt);
+$temp = $JSON -> main -> temp;
+$humid = $JSON -> main -> humidity;
+$speed = $JSON -> wind -> speed;
 
 ?>
 <h2>Погодные условия в <?= $myCity ?></h2>
